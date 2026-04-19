@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClimateLens — Current Affairs × Climate Impact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+<!-- ══ CURSOR ══════════════════════════════════════ -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursor-trail"></div>
+
+<!-- ══ LOADER ══════════════════════════════════════ -->
+<div class="page-loader" id="page-loader">
+  <div class="loader-inner">
+    <div class="loader-logo">🌿</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+    <div class="loader-text">ClimateLens</div>
+  </div>
+</div>
+
+<!-- ══ NAV ════════════════════════════════════════ -->
+<nav id="nav" class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" data-page="home">
+      <span class="logo-leaf">🌿</span>
+      <span class="logo-text">Climate<em>Lens</em></span>
+    </a>
+    <div class="nav-center" id="nav-links">
+      <a class="nav-link active" data-page="home" data-label="Home">Home</a>
+      <a class="nav-link" data-page="news" data-label="News">News</a>
+      <a class="nav-link" data-page="about" data-label="About">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-admin-btn" data-page="admin">Admin ↗</button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-progress" id="nav-progress"></div>
+</nav>
+
+<!-- ══ MOBILE MENU ════════════════════════════════ -->
+<div class="mobile-overlay" id="mobile-overlay">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  <nav class="mobile-nav">
+    <a class="mobile-nav-link" data-page="home">Home</a>
+    <a class="mobile-nav-link" data-page="news">News & Analysis</a>
+    <a class="mobile-nav-link" data-page="about">About</a>
+    <a class="mobile-nav-link" data-page="admin">Admin Panel</a>
+  </nav>
+  <div class="mobile-footer">ClimateLens © 2025</div>
+</div>
+
+<!-- ══ PAGES ══════════════════════════════════════ -->
+<main id="app">
+
+  <!-- HOME PAGE -->
+  <div class="page" id="page-home">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-grid"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-dot"></span>
+          <span>Climate Intelligence Platform</span>
+        </div>
+        <h1 class="hero-title">
+          The news, <br><em>through a climate lens</em>
+        </h1>
+        <p class="hero-sub">We don't just report events. We reveal their ecological consequences, ethical weight, and the actions that matter.</p>
+        <div class="hero-actions">
+          <button class="btn-hero-primary" data-page="news">
+            <span>Explore Articles</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="btn-hero-ghost" data-page="about">Our Mission</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat">
+            <span class="hstat-num" id="stat-total">—</span>
+            <span class="hstat-label">Articles</span>
+          </div>
+          <div class="hstat-divider"></div>
+          <div class="hstat">
+            <span class="hstat-num">3</span>
+            <span class="hstat-label">Analysis Layers</span>
+          </div>
+          <div class="hstat-divider"></div>
+          <div class="hstat">
+            <span class="hstat-num">5+</span>
+            <span class="hstat-label">Categories</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scroll-hint">
+        <div class="scroll-line"></div>
+        <span>scroll</span>
+      </div>
+    </section>
+
+    <!-- Ticker -->
+    <div class="ticker-band">
+      <div class="ticker-label">LIVE</div>
+      <div class="ticker-viewport">
+        <div class="ticker-track" id="ticker-track">
+          <span class="ticker-placeholder">Loading latest climate news…</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured -->
+    <section class="home-section container">
+      <div class="section-label">Featured Story</div>
+      <div id="featured-slot">
+        <div class="featured-skeleton"></div>
+      </div>
+    </section>
+
+    <!-- Latest Grid -->
+    <section class="home-section container">
+      <div class="section-row">
+        <div class="section-label">Latest Updates</div>
+        <button class="text-link" data-page="news">View all →</button>
+      </div>
+      <div class="cards-grid" id="home-grid">
+        <div class="card-skeleton"></div>
+        <div class="card-skeleton"></div>
+        <div class="card-skeleton"></div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-section">
+      <div class="container">
+        <div class="section-label" style="text-align:center; justify-content:center;">How it works</div>
+        <h2 class="how-title">Raw news → <em>Meaningful insight</em></h2>
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="how-step-num">01</div>
+            <div class="how-step-icon">📰</div>
+            <h3>Climate Event</h3>
+            <p>Curated current affairs with real environmental significance — floods, heatwaves, policy shifts.</p>
+          </div>
+          <div class="how-arrow">→</div>
+          <div class="how-step">
+            <div class="how-step-num">02</div>
+            <div class="how-step-icon">🔬</div>
+            <h3>Deep Analysis</h3>
+            <p>Environmental impact, ethical dimensions, accountability — the context traditional news skips.</p>
+          </div>
+          <div class="how-arrow">→</div>
+          <div class="how-step">
+            <div class="how-step-num">03</div>
+            <div class="how-step-icon">💡</div>
+            <h3>Action Steps</h3>
+            <p>Concrete solutions for individuals, communities, and policymakers to drive real change.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /page-home -->
+
+
+  <!-- NEWS PAGE -->
+  <div class="page" id="page-news">
+    <section class="news-hero container">
+      <div class="section-label">Archive</div>
+      <h1 class="page-title">News & <em>Analysis</em></h1>
+      <p class="page-sub">Every article carries three layers of insight: environmental impact, ethical perspective, and actionable steps.</p>
+    </section>
+    <div class="news-toolbar container">
+      <div class="search-wrap">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <input type="text" class="search-input" id="search-input" placeholder="Search articles…">
+        <button class="search-clear" id="search-clear" aria-label="Clear">✕</button>
+      </div>
+      <div class="filters" id="filter-btns"></div>
+    </div>
+    <div class="container">
+      <div class="cards-grid" id="news-grid"></div>
+      <div class="empty-state" id="news-empty" style="display:none">
+        <div class="empty-icon">🌿</div>
+        <h3>No articles found</h3>
+        <p>Try a different search or category filter</p>
+      </div>
+    </div>
+  </div><!-- /page-news -->
+
+
+  <!-- DETAIL PAGE -->
+  <div class="page" id="page-detail">
+    <div class="detail-container" id="detail-content">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+
+  <!-- ABOUT PAGE -->
+  <div class="page" id="page-about">
+    <section class="about-hero">
+      <div class="container">
+        <div class="section-label">The Project</div>
+        <h1 class="page-title">About <em>ClimateLens</em></h1>
+        <p class="page-sub" style="max-width:600px">A platform that bridges the gap between current events and climate understanding — connecting news to its ecological consequences, ethical weight, and pathways for action.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="section-label">The Problem</div>
+      <div class="problem-block">
+        <p>Climate change is one of the most critical global challenges of our time. Yet most news platforms focus only on reporting events — not their environmental consequences, ethical responsibilities, or long-term societal impact. People consume information without truly understanding its implications. <strong>ClimateLens was built to fill this gap.</strong></p>
+      </div>
+      <div class="mission-grid">
+        <div class="mission-card">
+          <div class="mc-icon">🌡️</div>
+          <h4>Environmental Analysis</h4>
+          <p>Connect news events to real ecological consequences — carbon, biodiversity, pollution, resource depletion.</p>
+        </div>
+        <div class="mission-card">
+          <div class="mc-icon">⚖️</div>
+          <h4>Ethical Dimensions</h4>
+          <p>Explore responsibility, policy accountability, social justice, and intergenerational impact.</p>
+        </div>
+        <div class="mission-card">
+          <div class="mc-icon">📚</div>
+          <h4>Climate Literacy</h4>
+          <p>Structured, accessible analysis that promotes sustainable, responsible thinking.</p>
+        </div>
+        <div class="mission-card">
+          <div class="mc-icon">🤝</div>
+          <h4>Action-Oriented</h4>
+          <p>Practical steps for individuals, communities, and policymakers to drive positive change.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="section-label">The Team</div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-av" style="background:linear-gradient(135deg,#3ddc84,#00c4a0)">O</div>
+          <div class="team-name">Ovee Wakchaure</div>
+          <div class="team-id">124A9062</div>
+        </div>
+        <div class="team-card">
+          <div class="team-av" style="background:linear-gradient(135deg,#60b0ff,#3d84dc)">N</div>
+          <div class="team-name">Naman Gandhi</div>
+          <div class="team-id">225A9065</div>
+        </div>
+        <div class="team-card">
+          <div class="team-av" style="background:linear-gradient(135deg,#ffd166,#ff9f43)">A</div>
+          <div class="team-name">Avani Mahendrakar</div>
+          <div class="team-id">225A9066</div>
+        </div>
+        <div class="team-card">
+          <div class="team-av" style="background:linear-gradient(135deg,#c9a0ff,#9b59b6)">K</div>
+          <div class="team-name">Krishi Mudaliar</div>
+          <div class="team-id">225A9067</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="section-label">Tech Stack</div>
+      <div class="stack-card">
+        <div class="stack-row">
+          <div class="stack-item"><span class="stack-layer">Frontend</span><div class="stack-tags"><span class="stag">HTML5</span><span class="stag">CSS3</span><span class="stag">Vanilla JS</span></div></div>
+          <div class="stack-item"><span class="stack-layer">Backend</span><div class="stack-tags"><span class="stag">Python 3.11</span><span class="stag">FastAPI</span><span class="stag">Uvicorn</span></div></div>
+          <div class="stack-item"><span class="stack-layer">Database</span><div class="stack-tags"><span class="stag">SQLite</span><span class="stag">SQLAlchemy</span></div></div>
+          <div class="stack-item"><span class="stack-layer">Tooling</span><div class="stack-tags"><span class="stag">Pydantic</span><span class="stag">REST API</span></div></div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-about -->
+
+
+  <!-- ADMIN PAGE -->
+  <div class="page" id="page-admin">
+    <div class="admin-wrap">
+
+      <!-- Login -->
+      <div id="admin-login" class="admin-login-screen">
+        <div class="login-card">
+          <div class="login-logo">🌿</div>
+          <h2>Admin Access</h2>
+          <p>ClimateLens Content Management</p>
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input class="form-input" type="text" id="admin-user" placeholder="admin" autocomplete="username">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-wrap">
+              <input class="form-input" type="password" id="admin-pass" placeholder="••••••••" autocomplete="current-password">
+              <button class="input-eye" onclick="togglePw()" type="button">👁</button>
+            </div>
+          </div>
+          <div class="login-error" id="login-error">Invalid credentials. Try admin / admin123</div>
+          <button class="btn-login" onclick="adminLogin()">Sign in →</button>
+          <div class="login-hint">Demo: <code>admin</code> / <code>admin123</code></div>
+        </div>
+      </div>
+
+      <!-- Panel -->
+      <div id="admin-panel" class="admin-panel" style="display:none">
+        <div class="admin-topbar">
+          <div class="admin-topbar-left">
+            <div class="admin-avatar">A</div>
+            <div>
+              <div class="admin-name">Admin</div>
+              <div class="admin-role">Content Manager</div>
+            </div>
+          </div>
+          <button class="btn-logout" onclick="adminLogout()">← Logout</button>
+        </div>
+
+        <div class="admin-stats-row" id="admin-stats-row">
+          <div class="astat"><span class="astat-num" id="as-total">—</span><span class="astat-label">Total Articles</span></div>
+          <div class="astat"><span class="astat-num" id="as-high">—</span><span class="astat-label">High Impact</span></div>
+          <div class="astat"><span class="astat-num" id="as-cats">—</span><span class="astat-label">Categories</span></div>
+        </div>
+
+        <div class="admin-tabs">
+          <button class="atab active" onclick="switchTab('add')" id="tab-btn-add">➕ Add Article</button>
+          <button class="atab" onclick="switchTab('manage')" id="tab-btn-manage">📋 Manage Articles</button>
+        </div>
+
+        <!-- Add Tab -->
+        <div class="tab-pane active" id="tab-add">
+          <div class="form-card">
+            <h3 id="form-heading">New Article</h3>
+            <div class="form-grid">
+              <div class="form-group fg-full">
+                <label class="form-label">Title <span class="req">*</span></label>
+                <input class="form-input" id="a-title" placeholder="E.g., Kerala floods displace 50,000 residents">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Category <span class="req">*</span></label>
+                <select class="form-input form-select" id="a-category">
+                  <option value="">Select…</option>
+                  <option value="flood">🌊 Flood</option>
+                  <option value="heatwave">🔥 Heatwave</option>
+                  <option value="pollution">💨 Pollution</option>
+                  <option value="deforestation">🌳 Deforestation</option>
+                  <option value="policy">⚡ Policy</option>
+                  <option value="glacier">🏔️ Glacier</option>
+                  <option value="biodiversity">🦋 Biodiversity</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Impact Level <span class="req">*</span></label>
+                <select class="form-input form-select" id="a-impact">
+                  <option value="">Select…</option>
+                  <option value="high">🔴 High</option>
+                  <option value="med">🟡 Medium</option>
+                  <option value="low">🟢 Low</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Emoji Icon</label>
+                <input class="form-input" id="a-emoji" placeholder="🌊" maxlength="4">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Card Color</label>
+                <div class="color-picker-wrap">
+                  <input type="color" class="color-picker" id="a-color" value="#0d1f2d">
+                  <span id="color-label">#0d1f2d</span>
+                </div>
+              </div>
+              <div class="form-group fg-full">
+                <label class="form-label">Short Description <span class="req">*</span></label>
+                <textarea class="form-input form-ta" id="a-desc" rows="2" placeholder="2-3 sentence summary shown on cards…"></textarea>
+              </div>
+              <div class="form-group fg-full">
+                <label class="form-label">Full Article Body <span class="req">*</span></label>
+                <textarea class="form-input form-ta" id="a-body" rows="4" placeholder="The full detailed account of the event…"></textarea>
+              </div>
+              <div class="form-group fg-full">
+                <label class="form-label form-label-env">🌿 Environmental Impact Analysis <span class="req">*</span></label>
+                <textarea class="form-input form-ta" id="a-env" rows="3" placeholder="Describe the ecological and environmental consequences…"></textarea>
+              </div>
+              <div class="form-group fg-full">
+                <label class="form-label form-label-eth">⚖️ Ethical Perspective <span class="req">*</span></label>
+                <textarea class="form-input form-ta" id="a-ethics" rows="3" placeholder="Discuss responsibility, accountability, social justice…"></textarea>
+              </div>
+              <div class="form-group fg-full">
+                <label class="form-label form-label-act">💡 Suggested Actions <span class="req">*</span> <span class="form-hint">— one per line</span></label>
+                <textarea class="form-input form-ta" id="a-actions" rows="4" placeholder="Plant native trees&#10;Support renewable energy policy&#10;Reduce single-use plastics"></textarea>
+              </div>
+            </div>
+            <div class="form-error-msg" id="add-error"></div>
+            <div class="form-actions">
+              <button class="btn-submit" id="submit-btn" onclick="submitArticle()">
+                <span id="submit-label">Publish Article</span>
+                <span class="submit-arrow">→</span>
+              </button>
+              <button class="btn-cancel" id="cancel-edit" onclick="cancelEdit()" style="display:none">Cancel Edit</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manage Tab -->
+        <div class="tab-pane" id="tab-manage">
+          <div class="manage-list" id="manage-list"></div>
+          <div class="empty-state" id="manage-empty" style="display:none">
+            <div class="empty-icon">📭</div>
+            <h3>No articles yet</h3>
+            <p>Add your first article using the form</p>
+          </div>
+        </div>
+      </div><!-- /admin-panel -->
+    </div>
+  </div><!-- /page-admin -->
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">🌿 ClimateLens</div>
+      <p>Bridging the gap between current events and climate understanding.</p>
+    </div>
+    <div class="footer-links">
+      <h5>Navigate</h5>
+      <a data-page="home">Home</a>
+      <a data-page="news">News & Analysis</a>
+      <a data-page="about">About</a>
+      <a data-page="admin">Admin Panel</a>
+    </div>
+    <div class="footer-links">
+      <h5>Categories</h5>
+      <a data-page="news" data-filter="flood">Floods</a>
+      <a data-page="news" data-filter="heatwave">Heatwaves</a>
+      <a data-page="news" data-filter="pollution">Pollution</a>
+      <a data-page="news" data-filter="deforestation">Deforestation</a>
+      <a data-page="news" data-filter="policy">Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom container">
+    <span>© 2025 ClimateLens — Ovee · Naman · Avani · Krishi</span>
+    <span>Built with 🌿 for climate awareness</span>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="/static/js/api.js"></script>
+<script src="/static/js/render.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
