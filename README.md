@@ -1,7 +1,5 @@
 # 🌿 ClimateLens — Full Stack Setup Guide
 
-## Project by: Ovee Wakchaure, Naman Gandhi, Avani Mahendrakar, Krishi Mudaliar
-
 ---
 
 ## 📁 Project Structure
